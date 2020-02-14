@@ -87,12 +87,8 @@ namespace NetViewer
             if (con.HedefIp.StartsWith("[::1]"))
                 return true;
 
-            int hedefPort = int.Parse(con.HedefIp.Split(':')[1]);
-            int kaynakPort = int.Parse(con.KaynakIp.Split(':')[1]);
-
-            return kaynakPort < hedefPort
-                ? baglantilar.Any(c => c.KaynakIp == con.KaynakIp && c.Pid == con.Pid)
-               : baglantilar.Any(c => c.HedefIp == con.HedefIp && c.Pid == con.Pid);
+          string hedefIp = con.HedefIp.Split(':')[0];
+          return baglantilar.Any(c => c.KaynakIp == con.KaynakIp && c.HedefIp.Split(':')[0] == hedefIp && c.Pid == con.Pid);
         }
 
         private Connection ayikla(string[] commandLines)
